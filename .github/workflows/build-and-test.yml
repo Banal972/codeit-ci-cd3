@@ -1,0 +1,36 @@
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  actions: write #  to cancel/stop running workflows (styfle/cancel-workflow-action)
+  contents: read #  to fetch code (actions/checkout)
+
+jobs:
+  main:
+    strategy:
+      fail-fast: false # true로 설정하게 되면 하나가 실패할경우 빨리 끝내버려라 라는 뜻인데 false로 설정할경우 2개를 둘다 시도함
+      matrix:
+        node: [18, 20]
+    runs-on: ubuntu-latest # workflow를 ubuntu로 돌림
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v4
+
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }} # matrix에 있는 버전을 쓰겠다 [18,20]
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: ▶️ Run build
+        run: npm run build
+
+      - name: ▶️ Run test
+        run: npm run test
