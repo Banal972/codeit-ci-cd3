@@ -49,7 +49,7 @@ export default function Page() {
             margin: "18px",
           }}
           onClick={async () => {
-            await Sentry.startSpan(
+            /* await Sentry.startSpan(
               {
                 name: "Example Frontend Span",
                 op: "test",
@@ -60,7 +60,8 @@ export default function Page() {
                   throw new Error("Sentry Example Frontend Error");
                 }
               }
-            );
+            ); */
+            Sentry.captureMessage("Something went wrong", "error"); // 센트리 이슈 명을 수정할 수 있음
           }}
         >
           Throw error!
