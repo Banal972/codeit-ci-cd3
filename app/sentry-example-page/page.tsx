@@ -64,7 +64,7 @@ export default function Page() {
             Sentry.captureMessage("Something went wrong", "error"); // 센트리 이슈 명을 수정할 수 있음
           }}
         >
-          Throw error!
+          Throw error!2
         </button>
 
         <p>
