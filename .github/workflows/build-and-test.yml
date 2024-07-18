@@ -1,6 +1,6 @@
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+on: [push, pull_request]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -13,10 +13,10 @@ permissions:
 jobs:
   main:
     strategy:
-      fail-fast: false # true로 설정하게 되면 하나가 실패할경우 빨리 끝내버려라 라는 뜻인데 false로 설정할경우 2개를 둘다 시도함
+      fail-fast: false
       matrix:
         node: [18, 20]
-    runs-on: ubuntu-latest # workflow를 ubuntu로 돌림
+    runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
@@ -24,7 +24,7 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }} # matrix에 있는 버전을 쓰겠다 [18,20]
+          node-version: ${{ matrix.node }}
 
       - name: Install dependencies
         run: npm ci
